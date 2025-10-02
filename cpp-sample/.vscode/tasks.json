@@ -1,0 +1,19 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build: cpp-sample",
+      "type": "shell",
+      "command": "clang++",
+      "args": [
+        "-std=c++17",
+        "-g",
+        "${workspaceFolder}/cpp-sample/main.cpp",
+        "-o",
+        "${workspaceFolder}/cpp-sample/main"
+      ],
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "LLDB: Launch",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/cpp-sample/main",
+      "args": [],
+      "cwd": "${workspaceFolder}/cpp-sample",
+      "stopOnEntry": false
+    }
+  ]
+}
