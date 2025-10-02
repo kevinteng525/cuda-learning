@@ -72,6 +72,42 @@ nvcc -V     # 查看CUDA版本
 
 3. SSH 准备：建议在本地生成 SSH 密钥并将公钥复制到远端的 `~/.ssh/authorized_keys`，避免使用密码登录。
 
+### 3.1.1 配置SSH免密登录（推荐）
+要实现免密登录远程阿里云实例，您需要完成以下几个步骤：
+
+1. 确保已有SSH密钥对
+   您本地已经有SSH密钥对（如`aliyun_gpu_key`和`aliyun_gpu_key.pub`），可以使用现有的。
+
+2. 将公钥复制到远程实例
+   使用ssh-copy-id命令将公钥复制到远程服务器：
+   ```bash
+   ssh-copy-id -i ~/.ssh/aliyun_gpu_key.pub root@<您的实例公网IP>
+   ```
+   
+   如果ssh-copy-id命令不可用，可以手动复制：
+   ```bash
+   cat ~/.ssh/aliyun_gpu_key.pub | ssh root@<您的实例公网IP> "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys"
+   ```
+
+3. 配置本地SSH客户端
+   编辑~/.ssh/config文件，添加以下内容：
+   ```
+   Host ali GPU
+     HostName <您的实例公网IP>
+     User root
+     IdentityFile ~/.ssh/aliyun_gpu_key
+     AddKeysToAgent yes
+     UseKeychain yes
+   ```
+
+4. 测试连接
+   完成上述配置后，您可以通过以下命令测试免密登录：
+   ```bash
+   ssh ali GPU
+   ```
+
+这样配置后，您就可以免密登录到阿里云GPU实例了。对于VS Code Remote-SSH，它会自动使用这些配置进行连接。
+
 ### 3.2 通过 Remote - SSH 连接远端
 1. 在 VS Code 中按下 F1，输入并选择 "Remote-SSH: Add New SSH Host..."，添加类似：
     ```text
