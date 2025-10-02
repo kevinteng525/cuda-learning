@@ -2,7 +2,7 @@
 
 本指南帮助你在 macOS 上把刚装好的 Visual Studio Code 配置为可以编辑、构建并调试本地 C++ 程序。文档包含扩展安装、编译器准备、VS Code 的 tasks/launch 示例，以及如何运行仓库中提供的示例。
 
-适用场景：本地 macOS（使用 clang/lldb）。如果你要在远端使用 Remote-SSH，请参考仓库中的 `CUDA远程调试环境搭建指南.md`（已包含远端 CUDA/VS Code 指南）。
+适用场景：本地 macOS（使用 g++/lldb 或 g++/gdb，本文以 g++ 为例）。如果你要在远端使用 Remote-SSH，请参考仓库中的 `CUDA远程调试环境搭建指南.md`（已包含远端 CUDA/VS Code 指南）。
 
 ---
 
@@ -16,8 +16,9 @@
 - VS Code（已安装）
 - 推荐扩展：
   - C/C++ (ms-vscode.cpptools)
-  - CodeLLDB (vadimcn.vscode-lldb) — 推荐用于 LLDB 的原生支持
+  - C/C++ Extension Pack
   - CMake Tools (ms-vscode.cmake-tools) — 如果你使用 CMake
+  - Output Colorizer
 
 安装顺序建议：先安装 C/C++，然后 CodeLLDB。
 
@@ -25,7 +26,7 @@
 
 在终端运行：
 ```zsh
-clang --version
+g++ --version
 which lldb
 ```
 如果 lldb 不存在，请安装 Xcode 命令行工具。
@@ -81,7 +82,7 @@ cpp-sample/
 
 - `cpp-sample/main.cpp`：演示函数调用和向量，适合设置多个断点。  
 - `cpp-sample/Makefile`：提供 `make`、`make run`、`make clean`。
-- `cpp-sample/.vscode/tasks.json`：自动化 clang++ 构建任务。  
+- `cpp-sample/.vscode/tasks.json`：自动化 g++ 构建任务。  
 - `cpp-sample/.vscode/launch.json`：CodeLLDB 的 launch 配置。
 
 ## 7. 常见问题排查

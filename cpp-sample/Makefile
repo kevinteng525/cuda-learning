@@ -1,4 +1,4 @@
-CXX := clang++
+CXX := g++
 SRC := main.cpp
 BIN := main
 CXXFLAGS := -std=c++17 -g -O0
