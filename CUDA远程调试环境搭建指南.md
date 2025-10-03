@@ -125,6 +125,14 @@ sudo apt install -y build-essential gdb openssh-server
 
 注意：cuda-gdb 随 CUDA Toolkit 一起安装，设备端调试需要 toolkit 中的调试工具。
 
+此外，强烈建议在远端的 VS Code 窗口中安装 "NVIDIA Nsight Visual Studio Code Edition" 扩展以获得更好的 CUDA 调试和分析体验：
+
+- 打开本地 VS Code，通过 Remote - SSH 连接到远端后，在远端窗口的 Extensions 面板中搜索并安装 “NVIDIA Nsight Visual Studio Code Edition”。
+- Nsight 扩展能与远端的 CUDA Toolkit 一起提供更完整的设备端调试、内核分析和性能剖析功能。
+- 如需更深入的性能分析，还可以在远端安装 NVIDIA 提供的 Nsight Systems / Nsight Compute（通过 NVIDIA 的 apt 仓库或官方下载包）。具体安装请参照 NVIDIA 官方文档：https://developer.nvidia.com/nsight
+
+注意：Nsight 扩展在 Remote - SSH 环境下会提示你在远端安装扩展的 server 端组件，按提示允许安装即可。
+
 ### 3.4 在远端使用 `sample/` 目录组织示例代码
 为了保持工程整洁，建议在仓库根目录下创建 `sample/` 文件夹并把所有 CUDA 示例放在其中：
 
