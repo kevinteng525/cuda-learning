@@ -2,21 +2,10 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Remote CUDA (cuda-gdb)",
-      "type": "cppdbg",
+      "name": "CUDA Debug (cuda-gdb)",
+      "type": "cuda-gdb",          // 仍然用 cppdbg，内部调用 cuda-gdb
       "request": "launch",
-      "program": "${workspaceFolder}/sample/vector_add",
-      "args": [],
-      "stopAtEntry": false,
-      "cwd": "${workspaceFolder}/sample",
-      "environment": [],
-      "externalConsole": false,
-      "MIMode": "gdb",
-      "miDebuggerPath": "/usr/local/cuda/bin/cuda-gdb",
-      "miDebuggerArgs": "",
-      "setupCommands": [
-        { "description": "Enable pretty-printing for gdb", "text": "-enable-pretty-printing", "ignoreFailures": true }
-      ]
+      "program": "${workspaceFolder}/build/testdebug", // 自动取刚才 build 出的可执行文件
     }
   ]
 }
