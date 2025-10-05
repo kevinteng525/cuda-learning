@@ -217,26 +217,15 @@ tasks.json（用于调用 nvcc 编译）：
 launch.json（使用 cpptools + cuda-gdb 在远端运行调试）：
 ```json
 {
-   "version": "0.2.0",
-   "configurations": [
-      {
-         "name": "Remote CUDA (cuda-gdb)",
-         "type": "cppdbg",
-         "request": "launch",
-         "program": "${workspaceFolder}/sample/vector_add",
-         "args": [],
-         "stopAtEntry": false,
-         "cwd": "${workspaceFolder}/sample",
-         "environment": [],
-         "externalConsole": false,
-         "MIMode": "gdb",
-         "miDebuggerPath": "/usr/local/cuda/bin/cuda-gdb",
-         "miDebuggerArgs": "",
-         "setupCommands": [
-            { "description": "Enable pretty-printing for gdb", "text": "-enable-pretty-printing", "ignoreFailures": true }
-         ]
-      }
-   ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "CUDA Debug (cuda-gdb)",
+      "type": "cuda-gdb",          // 仍然用 cppdbg，内部调用 cuda-gdb
+      "request": "launch",
+      "program": "${workspaceFolder}/build/testdebug", // 自动取刚才 build 出的可执行文件
+    }
+  ]
 }
 ```
 
@@ -249,9 +238,11 @@ launch.json（使用 cpptools + cuda-gdb 在远端运行调试）：
 
 1. 用 Remote - SSH 连接并在远端打开项目根目录（工作区）。
 2. 在 VS Code 终端或任务中运行构建任务：Run Build Task -> 选择 `build: vector_add`。
-3. 在 `sample/vector_add.cu` 的主机代码（如 kernel 调用前后）设置断点。注意：在 device 内核中设置断点需要 cuda-gdb 的 device 调试支持，某些情况下只在主机端断点更可靠。
-4. 启动调试（Run -> Start Debugging 或选择 `Remote CUDA (cuda-gdb)` 配置）。
+3. 在 `vector_add.cu` 的主机代码（如 kernel 调用前后）设置断点。注意：在 device 内核中设置断点需要 cuda-gdb 的 device 调试支持，某些情况下只在主机端断点更可靠。
+4. 启动调试（按 F5 或选择 `Run -> Start Debugging`，然后选择 `Remote CUDA (cuda-gdb)` 配置）。
 5. 调试器会在远端启动 cuda-gdb 并附加到程序，您可以查看主机变量、调用栈并单步执行。设备端（GPU）调试可尝试在 `cuda-gdb` 中使用 `cuda kernel break` 等命令，或使用 Nsight 更好地支持。
+
+**重要提示**：为了确保在CUDA内核代码中能正确设置断点，必须在launch.json中指定`type`为`cuda-gdb`。如果未正确配置，内核中的断点会自动下移到kernel结束的地方，无法在设备代码中进行有效调试。
 
 完成后，您即可在本地 VS Code 中像本地开发一样，编辑、编译并远程调试运行在阿里云 GPU 实例上的 CUDA 程序。
 
